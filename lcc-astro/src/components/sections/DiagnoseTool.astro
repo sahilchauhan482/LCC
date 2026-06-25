@@ -196,10 +196,19 @@ import Icon from '../ui/Icon.astro';
       justify-items: center;
     }
     .diagnose__card {
-      min-height: 520px;
+      min-height: 480px;
     }
     .diag-step {
       padding: 2rem 1rem;
+    }
+    .diag-options {
+      /* Force 2 columns on mobile by dropping min width */
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+    .diag-btn {
+      padding: 1rem 0.5rem;
+      font-size: 0.85rem;
     }
   }
 </style>
