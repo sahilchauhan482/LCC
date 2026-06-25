@@ -1,0 +1,185 @@
+---
+import Icon from '../ui/Icon.astro';
+import BeforeAfter from '../ui/BeforeAfter.astro';
+import ReviewMarquee from '../ui/ReviewMarquee.astro';
+
+const highlights = [
+  {
+    icon: 'shield',
+    title: 'Genuine parts & real warranty',
+    desc: 'Quality-matched components and a 90-day warranty on every repair — in writing.',
+  },
+  {
+    icon: 'sparkles',
+    title: 'Refurbished laptops, quality-checked',
+    desc: 'Hand-picked, fully serviced refurbished machines at honest prices — ready to work.',
+  },
+  {
+    icon: 'screen',
+    title: 'Flexible laptop rentals',
+    desc: 'Short or long-term rentals for events, offices and students — serviced and ready to go.',
+  },
+];
+---
+
+<section id="about" class="section about">
+  <div class="container about__grid">
+    <div class="about__intro reveal">
+      <p class="eyebrow">Why Lakhdata</p>
+      <h2>The repair shop locals actually trust.</h2>
+      <p class="section-lead">
+        We've built our name in Zirakpur on straight answers, fair pricing and repairs
+        that last. Beyond fixes, we sell quality refurbished laptops and rent out
+        ready-to-go machines — all backed by the same care.
+      </p>
+
+      <ul class="trust">
+        <li class="trust__item">
+          <span class="trust__stat"><span class="counter" data-target="10">0</span>K+</span>
+          <span class="trust__label">Repairs Completed</span>
+        </li>
+        <li class="trust__item">
+          <span class="trust__stat"><span class="counter" data-target="15">0</span>+</span>
+          <span class="trust__label">Years Experience</span>
+        </li>
+        <li class="trust__item">
+          <span class="trust__stat"><span class="counter" data-target="99">0</span>%</span>
+          <span class="trust__label">Happy Customers</span>
+        </li>
+        <li class="trust__item">
+          <span class="trust__stat"><span class="counter" data-target="90">0</span>-Day</span>
+          <span class="trust__label">Warranty Provided</span>
+        </li>
+      </ul>
+    </div>
+
+    <ul class="about__cards">
+      {
+        highlights.map((h, i) => (
+          <li class="hl reveal" data-reveal-delay={i * 90}>
+            <span class="hl__icon">
+              <Icon name={h.icon} size={22} />
+            </span>
+            <div>
+              <h3 class="hl__title">{h.title}</h3>
+              <p class="hl__desc">{h.desc}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <ReviewMarquee />
+
+  <div class="container">
+    <BeforeAfter />
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animate statistics counter rolling up on scroll
+  const counters = document.querySelectorAll('.counter');
+  counters.forEach((counter) => {
+    const target = parseInt(counter.getAttribute('data-target') || '0', 10);
+    
+    gsap.fromTo(counter,
+      { textContent: '0' },
+      {
+        textContent: String(target),
+        duration: 1.6,
+        ease: 'power2.out',
+        snap: { textContent: 1 },
+        scrollTrigger: {
+          trigger: counter,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  });
+</script>
+
+<style>
+  .about {
+    background: var(--brand-white);
+  }
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: center;
+  }
+  .trust {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem 2rem;
+    margin-top: 2.4rem;
+    max-width: 420px;
+  }
+  .trust__item {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .trust__stat {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 1rem + 2vw, 2.6rem);
+    color: var(--brand-orange);
+  }
+  .trust__label {
+    font-size: var(--text-sm);
+    color: var(--brand-muted);
+  }
+  .about__cards {
+    display: grid;
+    gap: 1rem;
+  }
+  .hl {
+    display: flex;
+    gap: 1.1rem;
+    padding: 1.4rem;
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    background: var(--brand-paper);
+    transition:
+      transform var(--dur-normal) var(--ease-out-expo),
+      box-shadow var(--dur-normal);
+  }
+  .hl:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-card);
+    border-color: var(--brand-orange-soft);
+  }
+  .hl__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    color: #fff;
+    background: var(--grad-hero);
+  }
+  .hl__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brand-black);
+  }
+  .hl__desc {
+    margin-top: 0.3rem;
+    font-size: var(--text-sm);
+    color: var(--brand-muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 860px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,273 @@
+---
+import Icon from '../ui/Icon.astro';
+import SocialIcons from '../ui/SocialIcons.astro';
+import ContactForm from '../ui/ContactForm.tsx';
+import { site } from '../../data/site';
+import { services } from '../../data/services';
+
+const serviceNames = services.map((s) => s.title);
+const { address } = site;
+---
+
+<section id="contact" class="section contact">
+  <div class="container contact__grid">
+    <div class="contact__intro reveal">
+      <p class="eyebrow">Book a repair</p>
+      <h2>Tell us what's wrong — we'll take it from here.</h2>
+      <p class="section-lead">
+        Send a quick enquiry or just call the shop. We reply fast and quotes are always
+        free.
+      </p>
+
+      <ul class="contact__details">
+        <li>
+          <span class="cd__icon"><Icon name="phone" size={18} /></span>
+          <a href={`tel:${site.phoneHref}`} class="cd__link">{site.phoneDisplay}</a>
+        </li>
+        <li>
+          <span class="cd__icon"><Icon name="pin" size={18} /></span>
+          <address class="cd__addr">
+            {address.line1}, {address.city}, {address.region} {address.postal}
+          </address>
+        </li>
+        <li>
+          <span class="cd__icon"><Icon name="clock" size={18} /></span>
+          <span>
+            {site.hours.map((h) => <span class="cd__hours">{h.day}: {h.time}</span>)}
+          </span>
+        </li>
+      </ul>
+
+      <div class="contact__socials">
+        <span class="contact__follow">Follow us</span>
+        <SocialIcons tone="light" />
+      </div>
+    </div>
+
+    <div class="contact__formwrap reveal">
+      <ContactForm client:visible whatsappNumber={site.phoneHref} services={serviceNames} />
+    </div>
+  </div>
+
+  <!-- Full Width Map -->
+  <div class="contact__map-full reveal">
+    <iframe
+      title="Lakhdata Computer Care location on Google Maps"
+      src={site.mapEmbed}
+      width="100%"
+      height="450"
+      style="border:0; display:block;"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--brand-paper);
+    border-bottom: 1px solid var(--brand-line);
+    padding-bottom: 0 !important;
+  }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+    align-items: start;
+  }
+  .contact__details {
+    display: grid;
+    gap: 1.1rem;
+    margin-top: 2rem;
+  }
+  .contact__details li {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+  .cd__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    color: var(--brand-orange-deep);
+    background: color-mix(in srgb, var(--brand-orange) 12%, white);
+  }
+  .cd__link {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--brand-black);
+    transition: color var(--dur-fast);
+  }
+  .cd__link:hover {
+    color: var(--brand-orange);
+  }
+  .cd__addr {
+    font-style: normal;
+    color: var(--brand-text);
+    max-width: 32ch;
+    line-height: 1.5;
+  }
+  .cd__hours {
+    display: block;
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+  }
+  .contact__socials {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.8rem;
+  }
+  .contact__follow {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--brand-muted);
+  }
+  .contact__map-full {
+    width: 100%;
+    margin-top: 5rem;
+    line-height: 0;
+  }
+  .contact__map-full iframe {
+    display: block;
+    width: 100%;
+    filter: grayscale(10%) contrast(1.05);
+  }
+  .contact__formwrap {
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    background: var(--brand-white);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  @media (max-width: 860px) {
+    .contact__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Form styles must be global: ContactForm is a React island (no scoped attrs). -->
+<style is:global>
+  .enquiry {
+    display: grid;
+    gap: 1.4rem;
+  }
+  .enquiry .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .field-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    padding: 1.4rem 1rem 0.5rem;
+    font: inherit;
+    font-size: var(--text-sm);
+    color: var(--brand-text);
+    background: var(--brand-paper);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition:
+      border-color var(--dur-fast),
+      box-shadow var(--dur-fast),
+      background var(--dur-fast);
+  }
+  .field-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  .field-group label {
+    position: absolute;
+    left: 1rem;
+    top: 1.05rem;
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    pointer-events: none;
+    transition:
+      top var(--dur-fast) var(--ease-out-expo),
+      font-size var(--dur-fast) var(--ease-out-expo),
+      color var(--dur-fast);
+    transform-origin: left;
+  }
+  
+  /* Floating label animation triggers */
+  .field-group input:focus ~ label,
+  .field-group input:not(:placeholder-shown) ~ label,
+  .field-group select:focus ~ label,
+  .field-group select:valid ~ label,
+  .field-group textarea:focus ~ label,
+  .field-group textarea:not(:placeholder-shown) ~ label {
+    top: 0.35rem;
+    font-size: 0.72rem;
+    color: var(--brand-orange-deep);
+    font-weight: 600;
+  }
+  
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    border-color: var(--brand-orange);
+    background: var(--brand-white);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-orange) 12%, transparent);
+  }
+  .enquiry select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23575762' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1.2rem;
+  }
+  .enquiry .opt {
+    font-weight: 400;
+    color: var(--brand-muted);
+  }
+  .enquiry .err {
+    color: var(--brand-orange-deep);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+  }
+  .enquiry .btn {
+    justify-self: start;
+    margin-top: 0.4rem;
+  }
+  .enquiry .btn:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+  .form-result {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.8rem;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--brand-orange) 8%, white);
+    border: 1px solid color-mix(in srgb, var(--brand-orange) 30%, white);
+  }
+  .form-result strong {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--brand-black);
+  }
+  .form-result p {
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  @media (max-width: 480px) {
+    .enquiry .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

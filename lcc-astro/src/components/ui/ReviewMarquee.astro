@@ -1,0 +1,205 @@
+---
+const reviews = [
+  { name: 'Vipin Kumar', text: 'Amazing and quick service at my doorstep. I had to upgrade RAM in my laptop and they provided door step installation. Thank you for the great service.', rating: 5 },
+  { name: 'Neel', text: 'I recently got my HP laptop repaired at Lakhdata IT Service, Zirakpur, and I am very satisfied with their service. The staff was professional, knowledgeable, and courteous...', rating: 5 },
+  { name: 'Rupali Gaurav', text: 'I am genuinely pleased with their service.', rating: 5 },
+  { name: 'vishal sharma', text: 'Best shop purchase for new desktop', rating: 5 },
+  { name: 'innocent boy vicky', text: 'Excellent service by Lakhdata IT Service! Their team is professional...', rating: 5 },
+  { name: 'Himgiri Agri Solutions', text: 'Good service always .Regular client', rating: 5 },
+  { name: 'Mayank Singh', text: 'Time is valuable, mechanic complete in with in time', rating: 5 },
+  { name: 'Roop Sikh', text: 'Excellent Service', rating: 5 },
+  { name: 'Mithun Rajak', text: 'Excellent service', rating: 5 },
+  { name: 'Tanveer Singh', text: 'Good services', rating: 5 },
+  { name: 'Vicky Dhiman', text: 'Good service', rating: 5 },
+];
+---
+
+<div class="reviews-section reveal">
+  <div class="marquee-wrapper">
+    <!-- First Track -->
+    <div class="marquee-track">
+      {reviews.map((review) => (
+        <a href="https://www.google.com/maps?q=Lakhdata+IT+Service+Laptop+%26+Computer+Repair,+Zirakpur" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-stars">
+            {Array.from({ length: review.rating }).map(() => (
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            ))}
+          </div>
+          <p class="review-text">"{review.text}"</p>
+          <div class="review-author">
+            <div class="author-avatar">{review.name.charAt(0)}</div>
+            <span class="author-name">{review.name}</span>
+            <span class="google-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+    
+    <!-- Second Track (Duplicate for seamless loop) -->
+    <div class="marquee-track" aria-hidden="true">
+      {reviews.map((review) => (
+        <a href="https://www.google.com/maps?q=Lakhdata+IT+Service+Laptop+%26+Computer+Repair,+Zirakpur" target="_blank" rel="noopener noreferrer" class="review-card">
+          <div class="review-stars">
+            {Array.from({ length: review.rating }).map(() => (
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            ))}
+          </div>
+          <p class="review-text">"{review.text}"</p>
+          <div class="review-author">
+            <div class="author-avatar">{review.name.charAt(0)}</div>
+            <span class="author-name">{review.name}</span>
+            <span class="google-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .reviews-section {
+    width: 100%;
+    margin-top: 5rem;
+    overflow: hidden;
+    position: relative;
+    padding-block: 2rem;
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(248,248,250,1) 50%, rgba(255,255,255,1) 100%);
+  }
+
+  /* Fade edges for smooth looping effect */
+  .reviews-section::before,
+  .reviews-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15vw;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .reviews-section::before {
+    left: 0;
+    background: linear-gradient(to right, white, transparent);
+  }
+  .reviews-section::after {
+    right: 0;
+    background: linear-gradient(to left, white, transparent);
+  }
+
+  .marquee-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 1.5rem;
+    flex-shrink: 0;
+    animation: scroll 35s linear infinite;
+  }
+
+  /* Pause on hover for better readability */
+  .marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .review-card {
+    flex: none;
+    width: 340px;
+    background: #fff;
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .review-stars {
+    display: flex;
+    gap: 0.2rem;
+  }
+
+  .review-text {
+    font-size: 0.95rem;
+    color: var(--brand-text);
+    line-height: 1.5;
+    flex-grow: 1;
+    font-style: italic;
+  }
+
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--brand-line);
+    padding-top: 1rem;
+  }
+
+  .author-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--brand-orange);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .author-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--brand-black);
+  }
+
+  .google-badge {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 0.4rem;
+    border-radius: 50%;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% - 1.5rem));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .review-card {
+      width: 280px;
+      padding: 1.2rem;
+    }
+    .reviews-section {
+      margin-top: 3rem;
+    }
+    .marquee-track {
+      animation: scroll 25s linear infinite; /* slightly faster on mobile */
+    }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  step: number;
+  icon: string;
+  title: string;
+  blurb: string;
+  delay?: number;
+}
+const { step, icon, title, blurb, delay = 0 } = Astro.props;
+---
+
+<article class="glow-card reveal" data-reveal-delay={delay} data-glow-card>
+  <div class="glow-card__border"></div>
+  <div class="glow-card__content">
+    <div class="card__top">
+      <span class="card__icon"><Icon name={icon} size={26} /></span>
+      <span class="card__step">{String(step).padStart(2, '0')}</span>
+    </div>
+    <h3 class="card__title">{title}</h3>
+    <p class="card__blurb">{blurb}</p>
+    <a href="#contact" class="card__more" aria-label={`Book service: ${title}`}>
+      Book this <Icon name="arrow" size={16} />
+    </a>
+  </div>
+</article>
+
+<style>
+  .card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+  .card__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    color: var(--brand-orange-deep);
+    background: color-mix(in srgb, var(--brand-orange) 12%, white);
+    transition:
+      background var(--dur-normal),
+      color var(--dur-normal),
+      transform var(--dur-normal) var(--ease-out-back);
+  }
+  .glow-card:hover .card__icon {
+    background: var(--grad-hero);
+    color: #fff;
+    transform: rotate(-6deg) scale(1.05);
+  }
+  .card__step {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--brand-line);
+  }
+  .card__title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--brand-black);
+    margin-bottom: 0.6rem;
+  }
+  .card__blurb {
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .card__more {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--brand-orange-deep);
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity var(--dur-normal),
+      transform var(--dur-normal) var(--ease-out-expo);
+  }
+  .glow-card:hover .card__more {
+    opacity: 1;
+    transform: none;
+  }
+</style>

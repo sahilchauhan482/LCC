@@ -1,0 +1,219 @@
+@import './tokens.css';
+@import './typography.css';
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--brand-text);
+  background: var(--brand-white);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--brand-orange);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Layout helpers --- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section {
+  padding-block: var(--space-section);
+}
+
+.section-head {
+  max-width: 760px;
+  margin-bottom: clamp(2rem, 1rem + 3vw, 4rem);
+  display: grid;
+  gap: 1rem;
+}
+
+/* --- Buttons --- */
+.btn {
+  --btn-bg: var(--brand-black);
+  --btn-fg: var(--brand-white);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.95em 1.6em;
+  border: none;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  letter-spacing: 0.01em;
+  transition:
+    transform var(--dur-fast) var(--ease-out-expo),
+    box-shadow var(--dur-normal) var(--ease-out-expo),
+    background var(--dur-fast);
+  will-change: transform;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn--primary {
+  --btn-bg: var(--grad-hero);
+  --btn-fg: #fff;
+  box-shadow: 0 10px 30px rgba(217, 83, 10, 0.35);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 16px 44px rgba(217, 83, 10, 0.45);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--brand-black);
+  border: 1.5px solid var(--brand-line);
+}
+
+.btn--ghost:hover {
+  border-color: var(--brand-orange);
+  color: var(--brand-orange-deep);
+}
+
+.btn__arrow {
+  transition: transform var(--dur-normal) var(--ease-out-back);
+}
+
+.btn:hover .btn__arrow {
+  transform: translate(2px, -2px);
+}
+
+/* --- Scroll-reveal primitive (driven by ScrollTrigger / IO) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out-expo),
+    transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Visually-hidden but screen-reader accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Glow Card Cursor-Tracking Border Hover Styles --- */
+.glow-card {
+  position: relative;
+  border-radius: var(--radius);
+  background: var(--brand-line);
+  padding: 1px; /* border thickness */
+  overflow: hidden;
+  transition: transform var(--dur-normal) var(--ease-out-expo), box-shadow var(--dur-normal) var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
+}
+
+.glow-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.glow-card__border {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    280px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    rgba(255, 94, 0, 0.4) 0%,
+    rgba(255, 94, 0, 0.05) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-card:hover .glow-card__border {
+  opacity: 1;
+}
+
+.glow-card__content {
+  position: relative;
+  background: var(--brand-white);
+  border-radius: calc(var(--radius) - 1px);
+  padding: 2.2rem 2rem;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}

@@ -1,0 +1,64 @@
+---
+interface Props {
+  n: string;
+  title: string;
+  desc: string;
+  delay?: number;
+}
+const { n, title, desc, delay = 0 } = Astro.props;
+---
+
+<li class="step reveal" data-reveal-delay={delay}>
+  <span class="step__dot" aria-hidden="true"></span>
+  <span class="step__n">{n}</span>
+  <h3 class="step__title">{title}</h3>
+  <p class="step__desc">{desc}</p>
+</li>
+
+<style>
+  .step {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 180px;
+    padding-top: 2.4rem;
+  }
+  .step__dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--brand-white);
+    border: 3px solid var(--brand-orange);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand-orange) 16%, transparent);
+    z-index: 1;
+  }
+  .step__n {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brand-orange-deep);
+    letter-spacing: 0.1em;
+  }
+  .step__title {
+    margin-top: 0.4rem;
+    font-size: var(--text-h3);
+  }
+  .step__desc {
+    margin-top: 0.5rem;
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    max-width: 24ch;
+  }
+  @media (max-width: 760px) {
+    .step {
+      padding-top: 0;
+      padding-left: 2.2rem;
+    }
+    .step__dot {
+      top: 4px;
+    }
+  }
+</style>

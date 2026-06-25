@@ -1,0 +1,104 @@
+---
+// Recent Repairs Toast Notification Component
+---
+<div id="repair-toast" class="repair-toast" aria-hidden="true">
+  <div class="toast-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5E00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+  </div>
+  <div class="toast-content">
+    <p class="toast-title" id="toast-title">Someone booked a repair</p>
+    <p class="toast-time" id="toast-time">Just now</p>
+  </div>
+</div>
+
+<style>
+  .repair-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1000;
+    transform: translateY(150px);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+    pointer-events: none;
+    max-width: 300px;
+  }
+  .repair-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .toast-icon {
+    font-size: 1.5rem;
+    background: var(--brand-orange-soft);
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .toast-content { display: flex; flex-direction: column; }
+  .toast-title { font-size: 0.85rem; font-weight: 600; color: var(--brand-black); margin:0; line-height: 1.3;}
+  .toast-time { font-size: 0.75rem; color: var(--brand-muted); margin:0; margin-top:0.2rem;}
+  @media (max-width: 768px) {
+    .repair-toast { bottom: 1.5rem; left: 1rem; right: auto; }
+  }
+</style>
+
+<script>
+  const repairs = [
+    "Rahul from Zirakpur booked a Screen Repair",
+    "MacBook Pro Motherboard fixed",
+    "Dell Inspiron Keyboard Replaced",
+    "Amit rented 2 Laptops for 1 month",
+    "Data Recovery completed 100%",
+    "HP Pavilion Screen Replaced",
+    "Lenovo ThinkPad hinge repaired",
+    "Vipin got door-step RAM upgrade"
+  ];
+  
+  const times = ["2 mins ago", "Just now", "5 mins ago", "12 mins ago", "1 min ago"];
+  
+  const toast = document.getElementById('repair-toast');
+  const titleEl = document.getElementById('toast-title');
+  const timeEl = document.getElementById('toast-time');
+  
+  if(toast && titleEl && timeEl) {
+    const showToast = () => {
+      const randomRepair = repairs[Math.floor(Math.random() * repairs.length)];
+      const randomTime = times[Math.floor(Math.random() * times.length)];
+      
+      titleEl.textContent = randomRepair;
+      timeEl.textContent = randomTime;
+      
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000); // Hide after 5s
+    };
+    
+    // Initial delay then loop
+    setTimeout(() => {
+      showToast();
+      
+      const scheduleNext = () => {
+        // Random interval between 60 seconds (60000ms) and 120 seconds (120000ms)
+        const nextInterval = Math.floor(Math.random() * (120000 - 60000 + 1)) + 60000;
+        setTimeout(() => {
+          showToast();
+          scheduleNext();
+        }, nextInterval);
+      };
+      
+      scheduleNext();
+    }, 8000); // Initial delay of 8 seconds before first popup
+  }
+</script>

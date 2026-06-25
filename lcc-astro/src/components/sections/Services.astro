@@ -1,0 +1,92 @@
+---
+import ServiceCard from '../ui/ServiceCard.astro';
+import { getServices } from '../../lib/sanity';
+
+const services = await getServices();
+---
+
+<section id="services" class="section services">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Our services</p>
+      <h2>What we fix — benchmark quality repair.</h2>
+      <p class="section-lead">
+        From chip-level board diagnostics to premium refurbished hardware sales and rentals,
+        our LCC technicians repair your gear with honest rates and fast turnarounds.
+      </p>
+    </div>
+
+    <div class="services__grid">
+      {
+        services.map((s, i) => (
+          <ServiceCard
+            step={s.step}
+            icon={s.icon}
+            title={s.title}
+            blurb={s.blurb}
+            delay={i * 60}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Mouse coordinates tracker for glow-card hover borders and 3D Tilt
+  const grid = document.querySelector('.services__grid');
+  if (grid) {
+    grid.addEventListener('mousemove', (e: Event) => {
+      const mouseEvent = e as MouseEvent;
+      const cards = grid.querySelectorAll('[data-glow-card]');
+      cards.forEach((card) => {
+        const htmlCard = card as HTMLElement;
+        const rect = htmlCard.getBoundingClientRect();
+        const x = mouseEvent.clientX - rect.left;
+        const y = mouseEvent.clientY - rect.top;
+        
+        htmlCard.style.setProperty('--mouse-x', `${x}px`);
+        htmlCard.style.setProperty('--mouse-y', `${y}px`);
+        
+        // 3D Tilt Effect
+        if (mouseEvent.clientX >= rect.left && mouseEvent.clientX <= rect.right && 
+            mouseEvent.clientY >= rect.top && mouseEvent.clientY <= rect.bottom) {
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -8; 
+          const rotateY = ((x - centerX) / centerX) * 8;
+          htmlCard.style.transform = `perspective(1000px) scale3d(1.03, 1.03, 1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          htmlCard.style.zIndex = "10";
+          htmlCard.style.transition = "none";
+        } else {
+          htmlCard.style.transform = `perspective(1000px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg)`;
+          htmlCard.style.zIndex = "1";
+          htmlCard.style.transition = "transform 0.5s ease";
+        }
+      });
+    });
+    
+    grid.addEventListener('mouseleave', () => {
+      const cards = grid.querySelectorAll('[data-glow-card]');
+      cards.forEach((card) => {
+        const htmlCard = card as HTMLElement;
+        htmlCard.style.transform = `perspective(1000px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg)`;
+        htmlCard.style.zIndex = "1";
+        htmlCard.style.transition = "transform 0.5s ease";
+      });
+    });
+  }
+</script>
+
+<style>
+  .services {
+    background: var(--brand-paper);
+    border-top: 1px solid var(--brand-line);
+    border-bottom: 1px solid var(--brand-line);
+  }
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1rem, 0.5rem + 1.5vw, 1.6rem);
+  }
+</style>

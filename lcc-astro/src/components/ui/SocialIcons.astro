@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../../data/site';
+interface Props {
+  tone?: 'light' | 'dark';
+}
+const { tone = 'light' } = Astro.props;
+---
+
+<ul class={`socials socials--${tone}`} aria-label="Social media">
+  {
+    site.socials.map((s) => (
+      <li>
+        <a href={s.href} aria-label={s.name} rel="noopener noreferrer" target="_blank">
+          <Icon name={s.icon} size={20} />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .socials {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .socials a {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    transition:
+      transform var(--dur-fast) var(--ease-out-back),
+      background var(--dur-normal),
+      color var(--dur-normal);
+  }
+  .socials--light a {
+    background: var(--brand-paper);
+    color: var(--brand-black);
+    border: 1px solid var(--brand-line);
+  }
+  .socials--dark a {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
+  .socials a:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: var(--grad-hero);
+    color: #fff;
+    border-color: transparent;
+  }
+</style>

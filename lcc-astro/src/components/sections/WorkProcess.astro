@@ -1,0 +1,294 @@
+---
+import Icon from '../ui/Icon.astro';
+import { processSteps } from '../../data/process';
+
+const processImages = [
+  '/process_diagnose.png',
+  '/process_quote.png',
+  '/process_repair.png',
+  '/process_check.png',
+  '/process_delivery.png'
+];
+---
+
+<section id="process" class="section process">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Repair workflow</p>
+      <h2>A transparent, hassle-free repair journey.</h2>
+      <p class="section-lead">
+        You'll always know exactly what's happening, how much it costs, and when it will be ready — before we start.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <!-- Dynamic SVG Snake Line -->
+      <svg class="timeline__svg" id="snake-svg" aria-hidden="true">
+        <path class="snake-path-bg" id="snake-path-bg"></path>
+        <path class="snake-path-fill" id="snake-path-fill"></path>
+      </svg>
+
+      <div class="timeline__items">
+        {
+          processSteps.map((step, i) => (
+            <div class={`timeline__item ${i % 2 === 0 ? 'timeline__item--left' : 'timeline__item--right'}`}>
+              
+              <!-- Content Card -->
+              <div class="timeline__content reveal" data-reveal-delay={i * 80}>
+                <span class="timeline__step-num">{step.n}</span>
+                <h3 class="timeline__title">{step.title}</h3>
+                <p class="timeline__desc">{step.desc}</p>
+              </div>
+              
+              <!-- Transparent 3D Illustration Image -->
+              <div class="timeline__image-wrapper reveal" data-reveal-delay={i * 80 + 40}>
+                <img src={processImages[i]} alt={step.title} class="timeline__image" />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function drawSnake() {
+    const timeline = document.querySelector('.timeline');
+    const items = document.querySelectorAll('.timeline__content');
+    const svg = document.getElementById('snake-svg');
+    const pathBg = document.getElementById('snake-path-bg');
+    const pathFill = document.getElementById('snake-path-fill');
+    
+    if (!timeline || !items.length || !svg) return;
+    
+    // Kill existing scroll triggers for the snake to redraw cleanly
+    ScrollTrigger.getAll().forEach(t => {
+      if(t.vars.trigger === '.timeline' && t.vars.scrub === true) t.kill();
+    });
+    
+    const tlRect = timeline.getBoundingClientRect();
+    
+    let d = "";
+    
+    items.forEach((item, index) => {
+      const rect = item.getBoundingClientRect();
+      const x = rect.left + rect.width / 2 - tlRect.left;
+      const y = rect.top + rect.height / 2 - tlRect.top;
+      
+      if (index === 0) {
+        // Start a bit above the first card
+        d += `M ${x} ${y - 150} L ${x} ${y} `;
+      } else {
+        const prevRect = items[index - 1].getBoundingClientRect();
+        const prevX = prevRect.left + prevRect.width / 2 - tlRect.left;
+        const prevY = prevRect.top + prevRect.height / 2 - tlRect.top;
+        
+        // Control points for a smooth S-curve
+        const cp1y = prevY + (y - prevY) / 2;
+        const cp2y = prevY + (y - prevY) / 2;
+        
+        d += `C ${prevX} ${cp1y}, ${x} ${cp2y}, ${x} ${y} `;
+      }
+
+      if (index === items.length - 1) {
+        // End a bit below the last card
+        d += ` L ${x} ${y + 150}`;
+      }
+    });
+    
+    pathBg.setAttribute('d', d);
+    pathFill.setAttribute('d', d);
+    
+    // Prepare for drawing animation
+    const length = pathFill.getTotalLength();
+    pathFill.style.strokeDasharray = length;
+    pathFill.style.strokeDashoffset = length;
+    
+    // Animate the line drawing
+    gsap.to(pathFill, {
+      strokeDashoffset: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: '.timeline',
+        start: 'top 40%',
+        end: 'bottom 80%',
+        scrub: true
+      }
+    });
+  }
+
+  // Draw initially, and on load/resize to ensure fonts/images don't break layout
+  drawSnake();
+  window.addEventListener('load', drawSnake);
+  window.addEventListener('resize', () => {
+    clearTimeout(window.resizeTimer);
+    window.resizeTimer = setTimeout(drawSnake, 100);
+  });
+</script>
+
+<style>
+  .process {
+    background: var(--brand-white);
+    border-bottom: 1px solid var(--brand-line);
+    overflow: hidden;
+  }
+
+  :global(.timeline) {
+    position: relative;
+    width: 100%;
+    margin: 4rem auto 0;
+    padding-bottom: 2rem;
+  }
+
+  /* SVG Snake Line Styles */
+  :global(.timeline__svg) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  :global(.snake-path-bg) {
+    fill: none;
+    stroke: var(--brand-line);
+    stroke-width: 3px;
+    stroke-linecap: round;
+  }
+
+  :global(.snake-path-fill) {
+    fill: none;
+    stroke: var(--brand-orange);
+    stroke-width: 4px;
+    stroke-linecap: round;
+    box-shadow: 0 0 10px var(--brand-orange);
+    filter: drop-shadow(0 0 8px rgba(255, 94, 0, 0.4));
+  }
+
+  :global(.timeline__items) {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  :global(.timeline__item) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Alternating columns layout using flex direction */
+  :global(.timeline__item--left) {
+    flex-direction: row-reverse;
+  }
+
+  :global(.timeline__item--left .timeline__content) {
+    text-align: right;
+    margin-right: 50px;
+  }
+
+  :global(.timeline__item--right .timeline__content) {
+    text-align: left;
+    margin-left: 50px;
+  }
+
+  :global(.timeline__content) {
+    width: calc(50% - 20px);
+    padding: 1.8rem 2.2rem;
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    transition: border-color var(--dur-normal) var(--ease-out-expo);
+    position: relative;
+    z-index: 10;
+  }
+
+  :global(.timeline__item:hover .timeline__content) {
+    border-color: var(--brand-orange-soft);
+  }
+
+  :global(.timeline__step-num) {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--brand-orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  :global(.timeline__title) {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--brand-black);
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.timeline__desc) {
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  /* 3D Illustration styles */
+  :global(.timeline__image-wrapper) {
+    width: calc(50% - 20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    z-index: 5;
+  }
+
+  :global(.timeline__image) {
+    max-width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.05));
+  }
+
+  :global(.timeline__item:hover .timeline__image) {
+    transform: scale(1.04) translateY(-3px);
+  }
+
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    :global(.timeline__item) {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 1rem;
+    }
+
+    :global(.timeline__content) {
+      width: 100% !important;
+      margin: 0 !important;
+      text-align: left !important;
+      padding: 1.5rem 1.8rem;
+    }
+
+    :global(.timeline__image-wrapper) {
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0.5rem 0 1.5rem 0;
+      justify-content: flex-start;
+    }
+
+    :global(.timeline__image) {
+      max-height: 220px;
+    }
+  }
+</style>

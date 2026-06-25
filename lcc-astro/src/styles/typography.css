@@ -1,0 +1,52 @@
+/* Typography — Sora (display) + Inter (body), loaded via fontsource-style CDN in <head>. */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--brand-black);
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: var(--text-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+p {
+  line-height: var(--leading-body);
+  color: var(--brand-text);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--brand-orange-deep);
+}
+
+.section-lead {
+  max-width: 56ch;
+  font-size: var(--text-base);
+  color: var(--brand-muted);
+}
+
+/* Gradient text accent for key words */
+.text-grad {
+  background: var(--grad-hero);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

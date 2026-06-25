@@ -1,0 +1,53 @@
+/*
+  Brand tokens — the ONLY place LCC brand values live.
+  Sampled from the logo: vibrant orange upward arrow + bold black "LCC" on white.
+  Swap hex here to re-theme the entire site (page + 3D stage accents).
+*/
+:root {
+  /* --- Palette --- */
+  --brand-orange: #FF5E00; /* primary accent — logo orange */
+  --brand-orange-deep: #E05300; /* hover / pressed */
+  --brand-orange-soft: #FFE6D6; /* light orange tint */
+  --brand-black: #000000; /* wordmark / headings */
+  --brand-ink: #111111;
+  --brand-white: #ffffff; /* base surface */
+  --brand-paper: #F9F9FB; /* clean light-gray bg */
+  --brand-text: #1F1F24;
+  --brand-muted: #575762;
+  --brand-line: #E5E5EA; /* hairline borders */
+
+  /* --- Derived --- */
+  --grad-hero: linear-gradient(135deg, var(--brand-orange), #FF7A00);
+  --grad-stage: radial-gradient(120% 120% at 50% 0%, #FFFFFF 0%, var(--brand-paper) 100%);
+  --glow: 0 0 40px rgba(255, 94, 0, 0.15);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 24px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 20px 48px rgba(255, 94, 0, 0.12);
+
+  /* --- Type scale --- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Sora', 'Inter', system-ui, sans-serif;
+  --text-hero: clamp(2.6rem, 1rem + 7vw, 7rem);
+  --text-h2: clamp(2rem, 1rem + 3.2vw, 3.6rem);
+  --text-h3: clamp(1.25rem, 0.9rem + 1.2vw, 1.7rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-sm: 0.9375rem;
+  --leading-tight: 1.08;
+  --leading-body: 1.6;
+  --tracking-tight: -0.02em;
+  --tracking-label: 0.18em;
+
+  /* --- Spacing / rhythm --- */
+  --space-section: clamp(4rem, 3rem + 5vw, 9rem);
+  --container: 1200px;
+  --container-pad: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  --radius-sm: 10px;
+  --radius: 18px;
+  --radius-lg: 28px;
+
+  /* --- Motion --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 180ms;
+  --dur-normal: 400ms;
+  --dur-slow: 700ms;
+}

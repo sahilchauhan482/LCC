@@ -1,0 +1,251 @@
+---
+import Icon from '../ui/Icon.astro';
+---
+<section id="diagnose" class="section diagnose">
+  <div class="container diagnose__container">
+    <div class="diagnose__header reveal">
+      <p class="eyebrow">Quick Diagnosis</p>
+      <h2>Free Repair Estimate</h2>
+      <p>Select your issue and get an instant quote on WhatsApp in 3 clicks. No automated bots—talk directly to our expert technicians.</p>
+      <ul class="diag-benefits">
+        <li>✓ 100% Free Estimate</li>
+        <li>✓ Instant WhatsApp Reply</li>
+        <li>✓ Transparent Pricing</li>
+      </ul>
+    </div>
+    
+    <div class="diagnose__card reveal" data-reveal-delay="200">
+      <!-- Step 1: Issue -->
+      <div class="diag-step active" id="step-1">
+        <h3>What's wrong with your device?</h3>
+        <div class="diag-options">
+          <button class="diag-btn" data-issue="Broken Screen">🖥️ Broken Screen</button>
+          <button class="diag-btn" data-issue="Dead Battery">🔋 Dead Battery</button>
+          <button class="diag-btn" data-issue="Water Damage">💧 Water Damage</button>
+          <button class="diag-btn" data-issue="Keyboard Not Working">⌨️ Keyboard Issue</button>
+          <button class="diag-btn" data-issue="Motherboard / Dead">⚡ Won't Turn On</button>
+          <button class="diag-btn" data-issue="Other Issue">❓ Other Issue</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Brand -->
+      <div class="diag-step" id="step-2">
+        <h3>What brand is your device?</h3>
+        <div class="diag-options">
+          <button class="diag-btn" data-brand="Apple/MacBook">🍎 Apple / Mac</button>
+          <button class="diag-btn" data-brand="HP">🔵 HP</button>
+          <button class="diag-btn" data-brand="Dell">💻 Dell</button>
+          <button class="diag-btn" data-brand="Lenovo">🔴 Lenovo</button>
+          <button class="diag-btn" data-brand="Asus">🎮 Asus</button>
+          <button class="diag-btn" data-brand="Other Brand">⚙️ Other</button>
+        </div>
+        <button class="diag-back" id="back-1">← Back</button>
+      </div>
+
+      <!-- Step 3: Result -->
+      <div class="diag-step" id="step-3">
+        <h3>Diagnosis Complete</h3>
+        <p class="diag-summary">You selected: <br/><strong id="summary-text" style="color: var(--brand-orange);"></strong></p>
+        <p>Click below to send this directly to our technician on WhatsApp for a fast price estimate!</p>
+        <a href="#" id="whatsapp-btn" class="btn btn--primary" target="_blank" rel="noopener noreferrer" style="margin-top: 1rem;">
+          Get Estimate on WhatsApp <span class="btn__arrow">↗</span>
+        </a>
+        <br/>
+        <button class="diag-back" id="back-2" style="margin-top: 1rem;">← Start Over</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .diagnose {
+    background: radial-gradient(circle at center, #fff, var(--brand-paper));
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4rem);
+    border-top: 1px solid var(--brand-line);
+  }
+  .diagnose__container {
+    /* Let the global .container handle the max-width for alignment */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 5vw, 6rem);
+    align-items: center;
+  }
+  .diagnose__header {
+    text-align: left;
+    margin-bottom: 0;
+  }
+  .diagnose__header .eyebrow {
+    color: var(--brand-orange);
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+  }
+  .diagnose__header h2 {
+    font-size: clamp(2.2rem, 1.8rem + 2.5vw, 3.5rem);
+    margin-bottom: 0.8rem;
+    line-height: 1.1;
+  }
+  .diagnose__header p {
+    color: var(--brand-muted);
+    font-size: 1.1rem;
+    max-width: 90%;
+  }
+  .diag-benefits {
+    margin-top: 2rem;
+    display: grid;
+    gap: 1rem;
+    color: var(--brand-black);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .diagnose__card {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem 1.5rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.03);
+    min-height: 380px;
+    position: relative;
+    overflow: hidden;
+  }
+  .diag-step {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    padding: 3rem 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(50px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .diag-step.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+  .diag-step.past {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  .diag-step h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--brand-black);
+  }
+  .diag-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+  .diag-btn {
+    background: #f8f9fa;
+    border: 1px solid var(--brand-line);
+    padding: 1.2rem 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--brand-black);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .diag-btn:hover {
+    border-color: var(--brand-orange);
+    background: white;
+    box-shadow: 0 5px 15px rgba(255, 94, 0, 0.1);
+    transform: translateY(-2px);
+    color: var(--brand-orange);
+  }
+  .diag-back {
+    background: none; border: none;
+    color: var(--brand-muted);
+    margin-top: auto;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem;
+  }
+  .diag-back:hover { color: var(--brand-orange); }
+  .diag-summary {
+    background: #fdfaf6;
+    border: 1px dashed var(--brand-orange);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: center;
+  }
+  @media (max-width: 900px) {
+    .diagnose__container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 2rem;
+    }
+    .diagnose__header {
+      text-align: center;
+    }
+    .diagnose__header .eyebrow {
+      justify-content: center;
+    }
+    .diagnose__header p {
+      max-width: 100%;
+    }
+    .diag-benefits {
+      justify-items: center;
+    }
+  }
+</style>
+
+<script>
+  let selectedIssue = '';
+  let selectedBrand = '';
+  
+  const step1 = document.getElementById('step-1');
+  const step2 = document.getElementById('step-2');
+  const step3 = document.getElementById('step-3');
+  const summaryText = document.getElementById('summary-text');
+  const waBtn = document.getElementById('whatsapp-btn') as HTMLAnchorElement;
+  
+  if(step1 && step2 && step3) {
+    step1.querySelectorAll('.diag-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        selectedIssue = (e.currentTarget as HTMLButtonElement).dataset.issue || '';
+        step1.classList.remove('active');
+        step1.classList.add('past');
+        step2.classList.add('active');
+      });
+    });
+    
+    step2.querySelectorAll('.diag-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        selectedBrand = (e.currentTarget as HTMLButtonElement).dataset.brand || '';
+        step2.classList.remove('active');
+        step2.classList.add('past');
+        step3.classList.add('active');
+        
+        if(summaryText) {
+          summaryText.textContent = `${selectedBrand} Laptop with ${selectedIssue}`;
+        }
+        if(waBtn) {
+          const msg = encodeURIComponent(`Hi, I need a repair estimate. I have a ${selectedBrand} laptop with the following issue: ${selectedIssue}. Can you help?`);
+          waBtn.href = `https://wa.me/919815109816?text=${msg}`;
+        }
+      });
+    });
+    
+    document.getElementById('back-1')?.addEventListener('click', () => {
+      step2.classList.remove('active');
+      step1.classList.remove('past');
+      step1.classList.add('active');
+    });
+    
+    document.getElementById('back-2')?.addEventListener('click', () => {
+      step3.classList.remove('active');
+      step2.classList.remove('past');
+      step1.classList.remove('past');
+      step1.classList.add('active');
+    });
+  }
+</script>
