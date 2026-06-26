@@ -20,6 +20,15 @@ const year = new Date().getFullYear();
     </nav>
 
     <div class="footer__col">
+      <h4>Services</h4>
+      <ul>
+        {nav.find(item => item.label === 'Services')?.submenu?.map((sub) => (
+          <li><a href={sub.href}>{sub.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer__col">
       <h4>Visit</h4>
       <address class="footer__addr">
         {site.address.line1}<br />
@@ -55,8 +64,8 @@ const year = new Date().getFullYear();
   }
   .footer__grid {
     display: grid;
-    grid-template-columns: 1.5fr 0.8fr 1.7fr 1.2fr;
-    gap: 2.5rem;
+    grid-template-columns: 1.5fr 0.8fr 1.6fr 1.7fr 1.2fr;
+    gap: 2rem;
     padding-bottom: 3rem;
   }
   .footer__logo {

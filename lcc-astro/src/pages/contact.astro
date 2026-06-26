@@ -1,0 +1,491 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/sections/Nav.astro';
+import Footer from '../components/sections/Footer.astro';
+import Icon from '../components/ui/Icon.astro';
+import SocialIcons from '../components/ui/SocialIcons.astro';
+import ContactForm from '../components/ui/ContactForm.tsx';
+import { site } from '../data/site';
+import { services } from '../data/services';
+
+const pageTitle = "Contact & Book Repair — Lakhdata Computer Care";
+const pageDescription = "Get in touch with Lakhdata Computer Care in Zirakpur. Book laptop, desktop, or printer repair, submit inquiries, or get directions to the shop.";
+
+const serviceNames = services.map((s) => s.title);
+const { address } = site;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Nav />
+  
+  <main id="main">
+    <!-- Contact Premium Hero -->
+    <header class="sub-hero">
+      <div class="sub-hero__bg" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, var(--brand-white) 100%), url('/contact_hero.png');"></div>
+      <div class="container sub-hero__content">
+        <p class="eyebrow">Connect with us</p>
+        <h1 class="sub-hero__title">Contact & Bookings</h1>
+        <p class="sub-hero__lead">
+          Have a question or ready to schedule a repair? Drop us a message, call the shop directly, or visit us in Zirakpur. We are here to help.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main Contact Section -->
+    <section class="section contact-section">
+      <div class="container contact-section__grid">
+        <div class="contact-section__info reveal">
+          <p class="eyebrow">Contact details</p>
+          <h2>Get straight answers, no jargon.</h2>
+          <p class="contact-section__lead">
+            Submit our inquiry form for a prompt response, call our service line directly, or drop a message on WhatsApp for instant assistance.
+          </p>
+
+          <ul class="contact-details-list">
+            <li>
+              <span class="cd-item-icon"><Icon name="phone" size={20} /></span>
+              <div>
+                <strong>Call Service Desk</strong>
+                <a href={`tel:${site.phoneHref}`} class="cd-item-link">{site.phoneDisplay}</a>
+              </div>
+            </li>
+            <li>
+              <span class="cd-item-icon"><Icon name="whatsapp" size={20} /></span>
+              <div>
+                <strong>WhatsApp Support</strong>
+                <a href={`https://wa.me/919815109816`} target="_blank" rel="noopener noreferrer" class="cd-item-link">Chat on WhatsApp</a>
+              </div>
+            </li>
+            <li>
+              <span class="cd-item-icon"><Icon name="pin" size={20} /></span>
+              <div>
+                <strong>Shop Address</strong>
+                <address class="cd-item-addr">
+                  Shop No. 152, Deva Ji VIP Plaza Road,<br />
+                  Zirakpur, Punjab 140603, India
+                </address>
+              </div>
+            </li>
+            <li>
+              <span class="cd-item-icon"><Icon name="clock" size={20} /></span>
+              <div>
+                <strong>Opening Hours</strong>
+                {site.hours.map((h) => (
+                  <span class="cd-item-hours">{h.day}: {h.time}</span>
+                ))}
+              </div>
+            </li>
+          </ul>
+
+          <div class="socials-wrap">
+            <span class="socials-label">Follow our updates</span>
+            <SocialIcons tone="light" />
+          </div>
+        </div>
+
+        <div class="contact-section__form reveal" data-reveal-delay={100}>
+          <div class="form-wrapper-box">
+            <h3>Book or Inquire</h3>
+            <p class="form-wrapper-lead">Specify your laptop, desktop, or printer model and describe the issues you are facing.</p>
+            <ContactForm client:load whatsappNumber={site.phoneHref} services={serviceNames} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map & Photo Split Section -->
+    <section class="map-sec reveal">
+      <div class="container">
+        <div class="map-sec__header">
+          <p class="eyebrow">Store Location</p>
+          <h2>Find us in Zirakpur</h2>
+          <p class="section-lead">
+            Located on Deva Ji VIP Plaza Road, our modern repair shop is easily accessible with convenient parking facilities.
+          </p>
+        </div>
+        
+        <div class="map-sec__split">
+          <div class="map-sec__map-half">
+            <iframe
+              title="Lakhdata Computer Care location on Google Maps"
+              src={site.mapEmbed}
+              width="100%"
+              height="450"
+              style="border:0; display:block;"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="map-sec__photo-half">
+            <img
+              src="/shop_real.png"
+              alt="Lakhdata Computer Care Shop Front Storefront"
+              class="map-sec__shop-img"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Sub-Hero Header */
+  .sub-hero {
+    position: relative;
+    padding-top: calc(72px + 4rem); /* Nav height + padding */
+    padding-bottom: 6rem;
+    color: var(--brand-white);
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .sub-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transform: scale(1.02);
+  }
+  
+  .sub-hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+  }
+  
+  .sub-hero__title {
+    font-size: clamp(2.5rem, 1.5rem + 5vw, 4.5rem);
+    color: var(--brand-white);
+    margin-block: 0.8rem 1.2rem;
+  }
+  
+  .sub-hero__lead {
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+  }
+
+  /* Contact Section */
+  .contact-section {
+    background: var(--brand-white);
+  }
+  
+  .contact-section__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2.5rem, 1rem + 5vw, 5rem);
+    align-items: start;
+  }
+  
+  .contact-section__info {
+    display: grid;
+    gap: 1.2rem;
+  }
+  
+  .contact-section__info h2 {
+    font-size: var(--text-h2);
+    margin-bottom: 0.2rem;
+  }
+  
+  .contact-section__lead {
+    color: var(--brand-muted);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .contact-details-list {
+    display: grid;
+    gap: 1.6rem;
+  }
+  
+  .contact-details-list li {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+  
+  .cd-item-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: var(--brand-orange-deep);
+    background: color-mix(in srgb, var(--brand-orange) 12%, white);
+  }
+  
+  .contact-details-list strong {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--brand-muted);
+    margin-bottom: 0.2rem;
+  }
+  
+  .cd-item-link {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--brand-black);
+    transition: color var(--dur-fast);
+  }
+  
+  .cd-item-link:hover {
+    color: var(--brand-orange);
+  }
+  
+  .cd-item-addr {
+    font-style: normal;
+    color: var(--brand-text);
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  
+  .cd-item-hours {
+    display: block;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--brand-text);
+    margin-bottom: 0.2rem;
+  }
+  
+  .socials-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+    border-top: 1px solid var(--brand-line);
+    padding-top: 1.8rem;
+  }
+  
+  .socials-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--brand-muted);
+  }
+
+  /* Form Wrapper */
+  .form-wrapper-box {
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3.5rem);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .form-wrapper-box h3 {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--brand-black);
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-wrapper-lead {
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+
+  /* Map & Photo Split Section */
+  .map-sec {
+    background: var(--brand-white);
+    padding-bottom: var(--space-section);
+  }
+  
+  .map-sec__header {
+    max-width: 600px;
+    margin-bottom: 3rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+  
+  .map-sec__split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
+  }
+  
+  .map-sec__map-half iframe {
+    display: block;
+    width: 100%;
+    height: 480px;
+    border-radius: var(--radius);
+    border: 1px solid var(--brand-line);
+    box-shadow: var(--shadow-card);
+    filter: grayscale(10%) contrast(1.05);
+  }
+  
+  .map-sec__photo-half {
+    width: 100%;
+    height: 480px;
+    border-radius: var(--radius);
+    border: 1px solid var(--brand-line);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    background: #060709;
+  }
+  
+  .map-sec__shop-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 10%;
+    transform: scale(0.94);
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+  }
+  
+  .map-sec__photo-half:hover .map-sec__shop-img {
+    transform: scale(0.98);
+  }
+  
+  @media (max-width: 860px) {
+    .map-sec__split {
+      grid-template-columns: 1fr;
+    }
+    .map-sec__map-half iframe,
+    .map-sec__photo-half {
+      height: 380px;
+    }
+  }
+
+  /* Responsive Styling */
+  @media (max-width: 860px) {
+    .contact-section__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>
+
+<!-- Form styles must be global: ContactForm is a React island (no scoped attrs). -->
+<style is:global>
+  .enquiry {
+    display: grid;
+    gap: 1.4rem;
+  }
+  .enquiry .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  .field-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    padding: 1.4rem 1rem 0.5rem;
+    font: inherit;
+    font-size: var(--text-sm);
+    color: var(--brand-text);
+    background: var(--brand-paper);
+    border: 1.5px solid var(--brand-line);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition:
+      border-color var(--dur-fast),
+      box-shadow var(--dur-fast),
+      background var(--dur-fast);
+  }
+  .field-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  .field-group label {
+    position: absolute;
+    left: 1rem;
+    top: 1.05rem;
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    pointer-events: none;
+    transition:
+      top var(--dur-fast) var(--ease-out-expo),
+      font-size var(--dur-fast) var(--ease-out-expo),
+      color var(--dur-fast);
+    transform-origin: left;
+  }
+  
+  /* Floating label animation triggers */
+  .field-group input:focus ~ label,
+  .field-group input:not(:placeholder-shown) ~ label,
+  .field-group select:focus ~ label,
+  .field-group select:valid ~ label,
+  .field-group textarea:focus ~ label,
+  .field-group textarea:not(:placeholder-shown) ~ label {
+    top: 0.35rem;
+    font-size: 0.72rem;
+    color: var(--brand-orange-deep);
+    font-weight: 600;
+  }
+  
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    border-color: var(--brand-orange);
+    background: var(--brand-white);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-orange) 12%, transparent);
+  }
+  .enquiry select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23575762' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1.2rem;
+  }
+  .enquiry .opt {
+    font-weight: 400;
+    color: var(--brand-muted);
+  }
+  .enquiry .err {
+    color: var(--brand-orange-deep);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+  }
+  .enquiry .btn {
+    justify-self: start;
+    margin-top: 0.4rem;
+  }
+  .enquiry .btn:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+  .form-result {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.8rem;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--brand-orange) 8%, white);
+    border: 1px solid color-mix(in srgb, var(--brand-orange) 30%, white);
+  }
+  .form-result strong {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--brand-black);
+  }
+  .form-result p {
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  @media (max-width: 480px) {
+    .enquiry .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

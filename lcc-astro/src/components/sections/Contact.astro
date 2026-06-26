@@ -49,16 +49,25 @@ const { address } = site;
     </div>
   </div>
 
-  <!-- Full Width Map -->
-  <div class="contact__map-full reveal">
-    <iframe
-      title="Lakhdata Computer Care location on Google Maps"
-      src={site.mapEmbed}
-      width="100%"
-      height="450"
-      style="border:0; display:block;"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <!-- Split Map & Photo Section -->
+  <div class="container contact__split reveal">
+    <div class="contact__map-half">
+      <iframe
+        title="Lakhdata Computer Care location on Google Maps"
+        src={site.mapEmbed}
+        width="100%"
+        height="450"
+        style="border:0; display:block;"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div class="contact__photo-half">
+      <img
+        src="/shop_real.png"
+        alt="Lakhdata Computer Care Shop Front Storefront"
+        class="contact__shop-img"
+      />
+    </div>
   </div>
 </section>
 
@@ -66,7 +75,6 @@ const { address } = site;
   .contact {
     background: var(--brand-paper);
     border-bottom: 1px solid var(--brand-line);
-    padding-bottom: 0 !important;
   }
   .contact__grid {
     display: grid;
@@ -125,15 +133,50 @@ const { address } = site;
     font-weight: 600;
     color: var(--brand-muted);
   }
-  .contact__map-full {
-    width: 100%;
+  .contact__split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 1rem + 3vw, 3rem);
     margin-top: 5rem;
-    line-height: 0;
   }
-  .contact__map-full iframe {
+  .contact__map-half iframe {
     display: block;
     width: 100%;
+    height: 480px;
+    border-radius: var(--radius);
+    border: 1px solid var(--brand-line);
+    box-shadow: var(--shadow-card);
     filter: grayscale(10%) contrast(1.05);
+  }
+  .contact__photo-half {
+    width: 100%;
+    height: 480px;
+    border-radius: var(--radius);
+    border: 1px solid var(--brand-line);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    background: #060709;
+  }
+  .contact__shop-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 10%;
+    transform: scale(0.94);
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+  }
+  .contact__photo-half:hover .contact__shop-img {
+    transform: scale(0.98);
+  }
+  @media (max-width: 860px) {
+    .contact__split {
+      grid-template-columns: 1fr;
+      margin-top: 3rem;
+    }
+    .contact__map-half iframe,
+    .contact__photo-half {
+      height: 380px;
+    }
   }
   .contact__formwrap {
     padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
