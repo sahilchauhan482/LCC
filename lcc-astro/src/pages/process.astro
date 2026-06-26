@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/sections/Nav.astro';
+import Footer from '../components/sections/Footer.astro';
+import Icon from '../components/ui/Icon.astro';
+import WorkProcess from '../components/sections/WorkProcess.astro';
+
+const pageTitle = "Our Repair Process — Lakhdata Computer Care";
+const pageDescription = "Learn how we handle your repairs: transparent diagnostic procedures, upfront quotes, expert chip-level fixes, multi-point QC testing, and fast handover.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Nav />
+  
+  <main id="main">
+    <!-- Premium Process Hero -->
+    <header class="sub-hero">
+      <div class="sub-hero__bg" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, var(--brand-white) 100%), url('/process_hero.png');"></div>
+      <div class="container sub-hero__content">
+        <p class="eyebrow">How we work</p>
+        <h1 class="sub-hero__title">Our Repair Workflow</h1>
+        <p class="sub-hero__lead">
+          From first check to quality testing, our structured process ensures you get your laptop back in perfect working condition with written warranty.
+        </p>
+      </div>
+    </header>
+
+    <WorkProcess />
+
+    <!-- Why our process is premium -->
+    <section class="section value-adds">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Our standards</p>
+          <h2>We don't cut corners.</h2>
+          <p class="section-lead">
+            Every step in our workflow is designed for maximum quality, honesty, and speed, giving you the best repair experience in Zirakpur.
+          </p>
+        </div>
+
+        <div class="value-grid">
+          <div class="value-card reveal" data-reveal-delay={0}>
+            <span class="value-card__icon"><Icon name="shield" size={24} /></span>
+            <h3>Written Warranty</h3>
+            <p>Every motherboard and chip-level repair is covered by a 90-day written guarantee. If the same issue returns, we fix it free of charge.</p>
+          </div>
+          <div class="value-card reveal" data-reveal-delay={80}>
+            <span class="value-card__icon"><Icon name="sparkles" size={24} /></span>
+            <h3>Genuine OEM Parts</h3>
+            <p>We source repair parts directly from reliable distributors. Original screens, authentic batteries, and durable charging ICs.</p>
+          </div>
+          <div class="value-card reveal" data-reveal-delay={160}>
+            <span class="value-card__icon"><Icon name="board" size={24} /></span>
+            <h3>In-House Lab</h3>
+            <p>Your laptop stays with us. We perform all repairs in our shop in Zirakpur rather than outsourcing, ensuring absolute safety for your data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Sub-Hero Header */
+  .sub-hero {
+    position: relative;
+    padding-top: calc(72px + 4rem); /* Nav height + padding */
+    padding-bottom: 6rem;
+    color: var(--brand-white);
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .sub-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transform: scale(1.02);
+  }
+  
+  .sub-hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+  }
+  
+  .sub-hero__title {
+    font-size: clamp(2.5rem, 1.5rem + 5vw, 4.5rem);
+    color: var(--brand-white);
+    margin-block: 0.8rem 1.2rem;
+  }
+  
+  .sub-hero__lead {
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+  }
+
+
+
+  /* Value Adds Section */
+  .value-adds {
+    background: var(--brand-paper);
+    border-top: 1px solid var(--brand-line);
+    border-bottom: 1px solid var(--brand-line);
+  }
+  
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  
+  .value-card {
+    background: var(--brand-white);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    padding: 2.5rem 2.2rem;
+    display: grid;
+    gap: 1.1rem;
+    transition: transform var(--dur-normal) var(--ease-out-expo), box-shadow var(--dur-normal);
+  }
+  
+  .value-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--brand-orange-soft);
+  }
+  
+  .value-card__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--grad-hero);
+    color: #fff;
+  }
+  
+  .value-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--brand-black);
+  }
+  
+  .value-card p {
+    font-size: var(--text-sm);
+    color: var(--brand-muted);
+    line-height: 1.6;
+  }
+
+</style>
