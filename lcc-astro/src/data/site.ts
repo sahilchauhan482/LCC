@@ -33,9 +33,29 @@ export const site = {
   formEndpoint: 'https://formspree.io/f/your-form-id',
 } as const;
 
-export const nav = [
-  { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
-] as const;
+export interface NavItem {
+  label: string;
+  href: string;
+  submenu?: { label: string; href: string; }[];
+}
+
+export const nav: NavItem[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Process', href: '/process' },
+  {
+    label: 'Services',
+    href: '/services',
+    submenu: [
+      { label: 'Motherboard Repair', href: '/services/motherboard' },
+      { label: 'Screen & Keyboard Fix', href: '/services/screen-keyboard' },
+      { label: 'RAM & SSD Upgrades', href: '/services/upgrades' },
+      { label: 'Printer Repair', href: '/services/printer' },
+      { label: 'Data Recovery', href: '/services/recovery' },
+      { label: 'Software & Virus Fix', href: '/services/software' },
+      { label: 'Laptop Rentals', href: '/services/rentals' },
+      { label: 'Refurbished Laptops', href: '/services/refurbished' }
+    ]
+  },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];

@@ -1,0 +1,494 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/sections/Nav.astro';
+import Footer from '../components/sections/Footer.astro';
+import Icon from '../components/ui/Icon.astro';
+
+const pageTitle = "Detailed Repair Services — Lakhdata Computer Care";
+const pageDescription = "Premium chip-level motherboard repair, SSD upgrades, data recovery, printer repair, and refurbished laptop sales in Zirakpur.";
+
+const detailedServices = [
+  {
+    id: "motherboard",
+    title: "Chip-Level Motherboard Repair",
+    icon: "board",
+    symptom: "No power, blue screen of death (BSOD), turning off automatically, charging port failure, liquid spill damage.",
+    description: "Our core specialty is component-level electronics. Instead of recommending an expensive motherboard replacement, our micro-soldering experts trace down shorted capacitors, blown diodes, and faulty power controller ICs under high-magnification digital microscopes. We also perform precise BGA chip reballing for GPU/CPU problems.",
+    details: [
+      "Micro-soldering & charging port/DC jack replacement",
+      "Power management IC and BIOS chip reprogramming",
+      "Liquid damage ultrasonic cleanup and traces repair",
+      "Diagnostic using thermal imaging to find shorted parts"
+    ],
+    time: "24 to 48 Hours",
+    price: "Starts from ₹999"
+  },
+  {
+    id: "screen-keyboard",
+    title: "Screen, Keyboard & Body Repair",
+    icon: "laptop",
+    symptom: "Flickering screen, cracked LCD glass, vertical lines, keyboard keys not working, loose or broken chassis hinges.",
+    description: "Physical damage doesn't mean your laptop is dead. We swap out broken, dim, or flickering displays with genuine high-gamut panels (FHD, IPS, 144Hz options). We also replace sticky or dead keyboards with OEM replacements and rebuild laptop hinge mounts using premium industrial-strength epoxy structures.",
+    details: [
+      "Grade-A OEM laptop display replacement with warranty",
+      "Full keyboard replacement (with or without backlight)",
+      "Hinge rebuilding, fabrication, and structural repair",
+      "Trackpad repairs and cleaning"
+    ],
+    time: "Same Day Service (1-4 Hours)",
+    price: "Starts from ₹499"
+  },
+  {
+    id: "upgrades",
+    title: "SSD Speed & RAM Upgrades",
+    icon: "storage",
+    symptom: "Laptops taking minutes to boot, slow app loading, freezing during multitasking, system running hot.",
+    description: "Breathe new life into your existing computer. Upgrading from a mechanical hard drive (HDD) to a Solid State Drive (SSD) makes computers up to 10x faster. Pairing it with a RAM upgrade guarantees seamless multitasking. We also perform thermal servicing—clearing dust blocks and applying premium Arctic MX-4 thermal paste to keep temperatures low.",
+    details: [
+      "HDD to high-speed NVMe/SATA SSD cloning & migration",
+      "DDR4 / DDR5 RAM upgrades for smooth multitasking",
+      "Complete heatsink cleaning and fan lubrication",
+      "Thermal paste replacement for CPU/GPU cooling"
+    ],
+    time: "1 to 2 Hours",
+    price: "Starts from ₹1,200"
+  },
+  {
+    id: "printer",
+    title: "Laser & Inkjet Printer Repair",
+    icon: "printer",
+    symptom: "Paper jams, blank pages, faded printouts, flashing red lights, printer not connecting to Wi-Fi, cartridge error.",
+    description: "We repair and service all major printer brands including HP, Canon, Epson, and Brother. From fixing complex paper feed mechanisms and pick-up rollers to resetting firmware and resolving connectivity/networking errors, we get your office workflow back up quickly.",
+    details: [
+      "Paper pickup roller and fuser assembly repair",
+      "Printhead cleaning, alignment, and clog removal",
+      "Toner/cartridge refilling and cartridge chip reset",
+      "Wireless network printer configuration"
+    ],
+    time: "Same Day or 24 Hours",
+    price: "Starts from ₹450"
+  },
+  {
+    id: "recovery",
+    title: "Advanced Data Recovery",
+    icon: "shield",
+    symptom: "Accidental deletion, formatted disk, hard drive making clicking noises, USB drive showing raw format.",
+    description: "Your files are valuable. If your drive has crashed, failed, or been accidentally formatted, we use professional software utilities and hardware tools to recover photos, documents, and client records. We work with internal HDDs, SSDs, external backup drives, and SD cards.",
+    details: [
+      "Recovery from formatted, corrupted, or RAW partitions",
+      "File reconstruction for lost photos, PDFs, and accounting files",
+      "Logical data recovery from failing hard drives",
+      "Secure data backup and migration to new drives"
+    ],
+    time: "2 to 4 Days",
+    price: "Based on analysis"
+  },
+  {
+    id: "software",
+    title: "OS Installation & Virus Cleanup",
+    icon: "shield",
+    symptom: "Constant pop-ups, slow operation, ransom messages, Windows corruption screen, boot loop errors.",
+    description: "We clean up bloatware, remove viruses, Trojans, and adware, and optimize your operating system settings. If needed, we perform clean installations of Windows 10/11 or macOS, including license validation and installing all necessary system drivers for stable operation.",
+    details: [
+      "Deep malware, spyware, and adware scan and cleanup",
+      "Clean OS Installation (Windows/macOS) with drivers",
+      "Official antivirus licensing and firewall setup",
+      "System boot repair and registry cleanup"
+    ],
+    time: "2 to 4 Hours",
+    price: "Starts from ₹350"
+  },
+  {
+    id: "rentals",
+    title: "High-Performance Laptop Rentals",
+    icon: "laptop",
+    symptom: "Setting up a temporary office, needing backup laptops during repairs, running workshops/events, or short-term project requirements.",
+    description: "Need a high-performance laptop without the upfront cost? Choose from our wide inventory of fully-serviced, ready-to-go laptops including Core i5/i7 business notebooks, MacBook Air/Pro, and high-end gaming laptops. We cater to businesses, remote employees, developers, events, and college students with flexible daily, monthly, and yearly plans.",
+    details: [
+      "Flexible rental plans (Daily, Monthly, or Yearly agreements)",
+      "Wide selection: Business Core i5/i7, MacBook, or Gaming laptops",
+      "100% free hardware maintenance and instant swap/replacement support",
+      "Pre-configured operating systems with custom software profiles"
+    ],
+    time: "Ready to Dispatch in 1 Hour",
+    price: "Starts from ₹1,000/month"
+  },
+  {
+    id: "refurbished",
+    title: "Certified Refurbished Laptops",
+    icon: "laptop",
+    symptom: "Needing a reliable laptop on a tight budget, looking for student-friendly options, or buying bulk computers for office staff.",
+    description: "Looking for a high-quality laptop without the brand-new price tag? Lakhdata Computer Care offers premium certified refurbished laptops in Zirakpur. Each laptop undergoes a rigorous 45-point hardware diagnostic test, complete internal cleaning, thermal paste replacement, and fresh OS installation. Backed by our written warranty and lifetime post-sales support, you get the performance of a new machine at a fraction of the cost.",
+    details: [
+      "Rigorous 45-point hardware diagnostics & quality certification",
+      "Full internal cleaning and premium thermal paste replacement",
+      "Genuine licensed OS (Windows 10/11 or macOS) with updated drivers",
+      "3 to 6-month written warranty with dedicated lifetime support"
+    ],
+    time: "Ready for Demo & Purchase",
+    price: "Starts from ₹12,000"
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Nav />
+  
+  <main id="main">
+    <!-- Premium Hero Section -->
+    <header class="sub-hero">
+      <div class="sub-hero__bg" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, var(--brand-white) 100%), url('/services_hero.png');"></div>
+      <div class="container sub-hero__content">
+        <p class="eyebrow">LCC Capabilities</p>
+        <h1 class="sub-hero__title">Our Repair Services</h1>
+        <p class="sub-hero__lead">
+          We combine component-level repair expertise with genuine replacement parts and transparent diagnostics to solve your computer problems for good.
+        </p>
+      </div>
+    </header>
+
+    <!-- Detailed Services Breakdown Section -->
+    <section class="section services-detail">
+      <div class="container">
+        <div class="services-detail__list">
+          {detailedServices.map((service, index) => (
+            <article class="service-block reveal" id={service.id} data-reveal-delay={index * 50}>
+              <div class="service-block__info">
+                <div class="service-block__header">
+                  <span class="service-block__icon">
+                    <Icon name={service.icon} size={28} />
+                  </span>
+                  <h2>{service.title}</h2>
+                </div>
+                
+                <p class="service-block__desc">{service.description}</p>
+                
+                <div class="service-block__symptoms">
+                  <strong>Common Symptoms:</strong>
+                  <p>{service.symptom}</p>
+                </div>
+
+                <div class="service-block__features">
+                  <strong>Our Service Coverage:</strong>
+                  <ul>
+                    {service.details.map((detail) => (
+                      <li>
+                        <span class="bullet-tick"><Icon name="arrow" size={12} /></span>
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="service-block__meta">
+                <div class="meta-card">
+                  <div class="meta-item">
+                    <span class="meta-label">Est. Completion Time</span>
+                    <span class="meta-value">{service.time}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">Starting Price Estimate</span>
+                    <span class="meta-value text-grad">{service.price}</span>
+                  </div>
+                  
+                  <a href={`https://wa.me/919815109816?text=Hi%20LCC,%20I'm%20inquiring%20about%20${encodeURIComponent(service.title)}`} target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--full">
+                    <Icon name="whatsapp" size={16} />
+                    Book Service
+                  </a>
+                  <a href="/contact" class="btn btn--ghost btn--full">Get Free Quote</a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Guarantee Bar -->
+    <section class="section-sm trust-bar">
+      <div class="container trust-bar__inner">
+        <div class="trust-bar__item">
+          <span class="trust-bar__icon"><Icon name="shield" size={24} /></span>
+          <div>
+            <h4>90-Day Written Warranty</h4>
+            <p>Every single laptop and desktop motherboard repair comes with a written warranty.</p>
+          </div>
+        </div>
+        <div class="trust-bar__item">
+          <span class="trust-bar__icon"><Icon name="sparkles" size={24} /></span>
+          <div>
+            <h4>100% Genuine Parts</h4>
+            <p>We source only original components or grade-A OEM replacements.</p>
+          </div>
+        </div>
+        <div class="trust-bar__item">
+          <span class="trust-bar__icon"><Icon name="phone" size={24} /></span>
+          <div>
+            <h4>Transparent Diagnostics</h4>
+            <p>No diagnosis fee if we don't fix the issue. You approve quotes before we repair.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Sub-Hero Header */
+  .sub-hero {
+    position: relative;
+    padding-top: calc(72px + 4rem); /* Nav height + padding */
+    padding-bottom: 6rem;
+    color: var(--brand-white);
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .sub-hero__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transform: scale(1.02);
+  }
+  
+  .sub-hero__content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+  }
+  
+  .sub-hero__title {
+    font-size: clamp(2.5rem, 1.5rem + 5vw, 4.5rem);
+    color: var(--brand-white);
+    margin-block: 0.8rem 1.2rem;
+  }
+  
+  .sub-hero__lead {
+    font-size: var(--text-base);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+  }
+
+  /* Services Detail Layout */
+  .services-detail {
+    background: var(--brand-white);
+  }
+  
+  .services-detail__list {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+  }
+  
+  .service-block {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: clamp(2rem, 1rem + 3vw, 4.5rem);
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3.5rem);
+    transition: transform var(--dur-normal) var(--ease-out-expo), border-color var(--dur-normal);
+  }
+  
+  .service-block:hover {
+    border-color: var(--brand-orange-soft);
+    transform: translateY(-4px);
+  }
+  
+  .service-block__header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-block__icon {
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    color: var(--brand-orange-deep);
+    background: color-mix(in srgb, var(--brand-orange) 12%, white);
+  }
+  
+  .service-block__desc {
+    color: var(--brand-text);
+    line-height: 1.65;
+    margin-bottom: 1.6rem;
+    font-size: var(--text-base);
+  }
+  
+  .service-block__symptoms {
+    background: rgba(255, 94, 0, 0.04);
+    border-left: 3px solid var(--brand-orange);
+    padding: 1rem 1.4rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 1.8rem;
+  }
+  
+  .service-block__symptoms strong {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--brand-orange-deep);
+    margin-bottom: 0.3rem;
+  }
+  
+  .service-block__symptoms p {
+    color: var(--brand-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+  
+  .service-block__features {
+    display: grid;
+    gap: 0.8rem;
+  }
+  
+  .service-block__features strong {
+    font-size: 0.9rem;
+    color: var(--brand-black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .service-block__features ul {
+    display: grid;
+    gap: 0.6rem;
+  }
+  
+  .service-block__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: var(--text-sm);
+    color: var(--brand-muted);
+    line-height: 1.5;
+  }
+  
+  .bullet-tick {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--brand-orange-soft);
+    color: var(--brand-orange-deep);
+    margin-top: 2px;
+  }
+  
+  .bullet-tick :global(svg) {
+    transform: rotate(45deg);
+  }
+
+  /* Meta Card */
+  .meta-card {
+    background: var(--brand-white);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    padding: 2rem;
+    position: sticky;
+    top: 100px;
+    display: grid;
+    gap: 1.4rem;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .meta-item {
+    display: grid;
+    gap: 0.2rem;
+    border-bottom: 1px solid var(--brand-line);
+    padding-bottom: 1rem;
+  }
+  
+  .meta-item:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .meta-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--brand-muted);
+  }
+  
+  .meta-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--brand-black);
+  }
+  
+  .btn--full {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Guarantee Bar */
+  .trust-bar {
+    background: var(--brand-paper);
+    border-top: 1px solid var(--brand-line);
+    border-bottom: 1px solid var(--brand-line);
+    padding-block: 4rem;
+  }
+  
+  .trust-bar__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+  }
+  
+  .trust-bar__item {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+  
+  .trust-bar__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--grad-hero);
+    color: #fff;
+  }
+  
+  .trust-bar__item h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand-black);
+    margin-bottom: 0.4rem;
+  }
+  
+  .trust-bar__item p {
+    font-size: var(--text-sm);
+    color: var(--brand-muted);
+    line-height: 1.5;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 860px) {
+    .service-block {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .meta-card {
+      position: static;
+    }
+  }
+</style>

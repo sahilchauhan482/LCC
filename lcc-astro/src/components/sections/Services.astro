@@ -18,15 +18,29 @@ const services = await getServices();
 
     <div class="services__grid">
       {
-        services.map((s, i) => (
-          <ServiceCard
-            step={s.step}
-            icon={s.icon}
-            title={s.title}
-            blurb={s.blurb}
-            delay={i * 60}
-          />
-        ))
+        services.map((s, i) => {
+          const t = s.title.toLowerCase();
+          let href = '/services';
+          if (t.includes('motherboard')) href = '/services/motherboard';
+          else if (t.includes('screen') || t.includes('keyboard')) href = '/services/screen-keyboard';
+          else if (t.includes('ram') || t.includes('ssd') || t.includes('upgrade') || t.includes('installation') || t.includes('hdd') || t.includes('processor') || t.includes('cpu')) href = '/services/upgrades';
+          else if (t.includes('printer')) href = '/services/printer';
+          else if (t.includes('recovery')) href = '/services/recovery';
+          else if (t.includes('software') || t.includes('virus') || t.includes('malware')) href = '/services/software';
+          else if (t.includes('rental')) href = '/services/rentals';
+          else if (t.includes('refurbished') || t.includes('chassis') || t.includes('laptop')) href = '/services/refurbished';
+
+          return (
+            <ServiceCard
+              step={s.step}
+              icon={s.icon}
+              title={s.title}
+              blurb={s.blurb}
+              delay={i * 60}
+              href={href}
+            />
+          );
+        })
       }
     </div>
   </div>

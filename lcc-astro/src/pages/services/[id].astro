@@ -1,0 +1,1080 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/sections/Nav.astro';
+import Footer from '../../components/sections/Footer.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { detailedServices } from '../../data/detailed-services';
+
+export async function getStaticPaths() {
+  return detailedServices.map((service) => ({
+    params: { id: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const pageTitle = `${service.title} — Lakhdata Computer Care`;
+const pageDescription = `${service.subtitle}. Turnaround time: ${service.timeframe}. Pricing starts from ${service.price}.`;
+
+// Construct WhatsApp booking message
+const waMessage = encodeURIComponent(`Hi LCC, I want to book a repair or get a quote for: ${service.title}`);
+const waLink = `https://wa.me/919815109816?text=${waMessage}`;
+
+const isRepair = service.id !== 'rentals' && service.id !== 'refurbished';
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Nav forceDarkText={true} />
+  
+  <main id="main" class="service-page">
+    <!-- Magical Decorative Background Blobs -->
+    <div class="glow-blob glow-blob--1"></div>
+    <div class="glow-blob glow-blob--2"></div>
+    <div class="glow-blob glow-blob--3"></div>
+
+    <!-- Premium White-Background Studio Hero -->
+    <header class="service-hero">
+      <div class="container service-hero__grid">
+        <div class="service-hero__info reveal">
+          <p class="service-hero__eyebrow">
+            <span class="bullet-dot"></span>
+            LCC Specialist Service
+          </p>
+          <h1 class="service-hero__title">{service.title}</h1>
+          <p class="service-hero__subtitle">{service.subtitle}</p>
+          
+          <p class="service-hero__desc">{service.description}</p>
+          
+          <!-- Key Metrics Badges -->
+          <div class="service-hero__metrics">
+            <div class="metric-card">
+              <span class="metric-icon"><Icon name="arrow" size={16} /></span>
+              <div>
+                <span class="metric-label">TIME ESTIMATE</span>
+                <span class="metric-value">{service.timeframe}</span>
+              </div>
+            </div>
+            <div class="metric-card">
+              <span class="metric-icon"><Icon name="storage" size={16} /></span>
+              <div>
+                <span class="metric-label">STARTING RATE</span>
+                <span class="metric-value">{service.price}</span>
+              </div>
+            </div>
+            <div class="metric-card">
+              <span class="metric-icon"><Icon name="shield" size={16} /></span>
+              <div>
+                <span class="metric-label">WARRANTY</span>
+                <span class="metric-value">{service.warranty}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="service-hero__ctas">
+            <a href={waLink} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+              <Icon name="whatsapp" size={20} />
+              <span>Book via WhatsApp</span>
+            </a>
+            <a href="/contact" class="btn btn--secondary">Get Free Estimate</a>
+          </div>
+        </div>
+        
+        <!-- Premium Visual Frame (3D Blend Style) -->
+        <div class="service-hero__visual reveal" data-reveal-delay="100">
+          <div class="visual-card">
+            <img src={service.image} alt={service.title} class="visual-card__img" />
+            <div class="visual-card__badge">
+              <span class="visual-card__badge-icon">⚡</span>
+              <span>Genuine Spares Only</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Alternating Detailed Sections (e.g. for Screen, Keyboard, Body) -->
+    {service.sections && (
+      <section class="section service-sections">
+        <div class="container service-sections__list">
+          {service.sections.map((sec, sIdx) => {
+            const secWa = `https://wa.me/919815109816?text=${encodeURIComponent(`Hi LCC, I want to book: ${service.title} - ${sec.title}`)}`;
+            return (
+              <article class={`section-row ${sIdx % 2 !== 0 ? 'section-row--reverse' : ''} reveal`}>
+                <div class="section-row__info">
+                  <span class="section-row__index">0{sIdx + 1}</span>
+                  <h2>{sec.title}</h2>
+                  <p class="section-row__desc">{sec.description}</p>
+                  
+                  <ul class="section-row__features">
+                    {sec.features.map((feat) => (
+                      <li>
+                        <span class="bullet-tick"><Icon name="check" size={14} /></span>
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div class="section-row__cta-box">
+                    <a href={secWa} target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+                      <span>Book Service</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="section-row__visual">
+                  <img src={sec.image} alt={sec.title} class="section-row__img" />
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    <!-- Symptoms Checklist Section -->
+    <section class="section symptoms-sec">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>{isRepair ? "When Do You Need This?" : "Perfect For Your Needs"}</h2>
+          <p>
+            {isRepair 
+              ? "Bring your system if it displays any of these symptoms for a free, no-obligation diagnosis." 
+              : "We provide high-quality laptop solutions tailored for these common requirements."}
+          </p>
+        </div>
+        
+        <div class="symptoms-grid" style={`--symptoms-count: ${service.symptoms.length}`}>
+          {service.symptoms.map((symptom, idx) => (
+            <div class={`symptom-card ${!isRepair ? 'symptom-card--check' : ''} reveal`} data-reveal-delay={idx * 50}>
+              <div class="symptom-card__header">
+                <span class="symptom-card__icon-wrap">
+                  {isRepair ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="symptom-icon">
+                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                      <line x1="12" y1="9" x2="12" y2="13"/>
+                      <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="symptom-icon">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  )}
+                </span>
+                <span class="symptom-card__badge">0{idx + 1}</span>
+              </div>
+              <p class="symptom-card__text">{symptom}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Transparent Step-By-Step Process Section -->
+    <section class="section process-sec">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>How It Works</h2>
+          <p>We believe in absolute transparency. Here is our step-by-step diagnostic and repair process.</p>
+        </div>
+
+        <div class="process-steps-grid">
+          {service.process.map((p, idx) => (
+            <div class="process-step-card reveal" data-reveal-delay={idx * 80}>
+              <div class="step-badge">{p.step}</div>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing and Coverage Section -->
+    <section class="section rates-sec">
+      <div class="container rates-grid-container">
+        <div class="rates-sec__info reveal">
+          <div class="section-title">
+            <h2>{isRepair ? "Repair Rates & Coverage" : "Pricing & Packages"}</h2>
+            <p>
+              {isRepair
+                ? "Flat-rate transparent pricing structure. All repairs are done under written warranty."
+                : "Flexible rental and sales packages. Get the best value with free maintenance support."}
+            </p>
+          </div>
+          
+          <div class="rates-trust-features">
+            <div class="trust-feat">
+              <span class="trust-feat__check">✓</span>
+              <div>
+                <strong>No Hidden Charges</strong>
+                <p>What we quote is what you pay. Tax and diagnostics included.</p>
+              </div>
+            </div>
+            <div class="trust-feat">
+              <span class="trust-feat__check">✓</span>
+              <div>
+                <strong>{isRepair ? "Warranty Included" : "Free Maintenance"}</strong>
+                <p>{isRepair ? "Get up to 12 months warranty on replaced parts." : "Any hardware fault is fixed or swapped for free."}</p>
+              </div>
+            </div>
+            <div class="trust-feat">
+              <span class="trust-feat__check">✓</span>
+              <div>
+                <strong>Genuine Parts Only</strong>
+                <p>We source certified spares directly from OEM suppliers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rates-table-wrap reveal">
+          <table class="rates-table">
+            <thead>
+              <tr>
+                <th>{isRepair ? "Specific Repair / Service" : "Device Configuration / Tier"}</th>
+                <th>Starting Price</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {service.coverage.map((c) => {
+                const itemWa = `https://wa.me/919815109816?text=${encodeURIComponent(`Hi LCC, I want to book: ${service.title} - ${c.name}`)}`;
+                return (
+                  <tr>
+                    <td class="rate-name">
+                      <strong>{c.name}</strong>
+                    </td>
+                    <td class="rate-price">{c.price}</td>
+                    <td class="text-right">
+                      <a href={itemWa} target="_blank" rel="noopener noreferrer" class="rate-btn">
+                        Book
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Accordion Section -->
+    <section class="section faq-sec">
+      <div class="container faq-sec__inner">
+        <div class="section-title reveal">
+          <h2>Frequently Asked Questions</h2>
+          <p>Common questions answered about our {service.title} service.</p>
+        </div>
+
+        <div class="faq-accordion-list">
+          {service.faqs.map((faq, idx) => (
+            <details class="faq-details reveal" data-reveal-delay={idx * 50}>
+              <summary class="faq-summary">
+                <span>{faq.q}</span>
+                <span class="faq-arrow">
+                  <Icon name="arrow" size={14} />
+                </span>
+              </summary>
+              <div class="faq-content">
+                <p>{faq.a}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Subpage Bottom Action Banner -->
+    <section class="section cta-banner reveal">
+      <div class="container cta-banner__inner">
+        <div class="cta-banner__content">
+          <h2>Ready to repair your device?</h2>
+          <p>Get a completely free diagnostic when you approve the repair work. Diagnostics are fully transparent.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href={waLink} target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            <Icon name="whatsapp" size={18} />
+            <span>Chat on WhatsApp</span>
+          </a>
+          <a href="/contact" class="btn btn--secondary-white">Visit Our Lab</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+
+
+<style>
+  /* --- Page Wrapper --- */
+  .service-page {
+    position: relative;
+    overflow: hidden;
+  }
+
+
+
+  /* --- Magical Background Blobs --- */
+  .glow-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-blob--1 {
+    width: 450px;
+    height: 450px;
+    background: var(--brand-orange);
+    top: 5%;
+    left: -10%;
+    animation: float-blob 22s infinite alternate;
+  }
+  .glow-blob--2 {
+    width: 550px;
+    height: 550px;
+    background: #0070f3;
+    top: 35%;
+    right: -15%;
+    animation: float-blob 28s infinite alternate-reverse;
+  }
+  .glow-blob--3 {
+    width: 400px;
+    height: 400px;
+    background: #7928ca;
+    top: 70%;
+    left: -5%;
+    animation: float-blob 25s infinite alternate;
+  }
+
+  @keyframes float-blob {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(60px, 40px) scale(1.1); }
+    100% { transform: translate(-30px, -60px) scale(0.9); }
+  }
+
+  /* --- Hero Styling --- */
+  .service-hero {
+    background: var(--brand-white);
+    padding-top: calc(72px + 4.5rem);
+    padding-bottom: 5.5rem;
+    border-bottom: 1px solid var(--brand-line);
+    position: relative;
+    z-index: 2;
+  }
+  .service-hero__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 1rem + 5vw, 5rem);
+    align-items: center;
+  }
+  .service-hero__eyebrow {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--brand-orange);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .bullet-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--brand-orange);
+    border-radius: 50%;
+  }
+  .service-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 3vw, 3.8rem);
+    font-weight: 800;
+    line-height: var(--leading-tight);
+    color: var(--brand-black);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: 0.8rem;
+  }
+  .service-hero__subtitle {
+    font-size: clamp(1.15rem, 1rem + 1vw, 1.4rem);
+    font-weight: 600;
+    color: var(--brand-muted);
+    margin-bottom: 2rem;
+  }
+  .service-hero__desc {
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    color: var(--brand-text);
+    margin-bottom: 2.5rem;
+    max-width: 58ch;
+  }
+  
+  /* --- Metrics Cards --- */
+  .service-hero__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .metric-card {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.2rem 1rem;
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-sm);
+  }
+  .metric-icon {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--brand-orange-soft);
+    color: var(--brand-orange);
+    display: grid;
+    place-items: center;
+  }
+  .metric-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--brand-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+  }
+  .metric-value {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--brand-black);
+  }
+
+  /* --- CTAs --- */
+  .service-hero__ctas {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn--whatsapp {
+    background: #25D366;
+    color: white;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.2);
+  }
+  .btn--whatsapp:hover {
+    background: #20BA56;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+  }
+
+  /* --- Visual Card (3D Blend Style) --- */
+  .service-hero__visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .visual-card {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+  }
+  .visual-card:hover {
+    transform: translateY(-8px) scale(1.02);
+  }
+  .visual-card__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.1;
+    object-fit: contain;
+    /* Blend perfectly with white background */
+    mix-blend-mode: multiply;
+    filter: contrast(1.2) brightness(1.08);
+  }
+  .visual-card__badge {
+    position: absolute;
+    bottom: 5px;
+    right: 25px;
+    background: var(--brand-black);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 30px;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+  .visual-card__badge-icon {
+    color: var(--brand-orange);
+  }
+
+  /* --- Alternating Detailed Sections --- */
+  .service-sections {
+    background: var(--brand-white);
+    border-bottom: 1px solid var(--brand-line);
+    position: relative;
+    z-index: 2;
+  }
+  .service-sections__list {
+    display: grid;
+    gap: clamp(4rem, 3rem + 5vw, 7rem);
+  }
+  .section-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 1rem + 5vw, 5rem);
+    align-items: center;
+  }
+  .section-row--reverse {
+    direction: rtl;
+  }
+  .section-row--reverse .section-row__info {
+    direction: ltr; /* Reset text direction */
+  }
+  .section-row__info {
+    display: flex;
+    flex-direction: column;
+  }
+  .section-row__index {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--brand-orange-soft);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+  .section-row__info h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 1rem + 2vw, 2.3rem);
+    font-weight: 800;
+    color: var(--brand-black);
+    margin-bottom: 1.2rem;
+    letter-spacing: var(--tracking-tight);
+  }
+  .section-row__desc {
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    color: var(--brand-text);
+    margin-bottom: 1.8rem;
+  }
+  .section-row__features {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 2.2rem;
+  }
+  .section-row__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: var(--text-sm);
+    color: var(--brand-muted);
+  }
+  .bullet-tick {
+    color: var(--brand-orange);
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+  .section-row__visual {
+    display: flex;
+    justify-content: center;
+  }
+  .section-row__img {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    filter: contrast(1.2) brightness(1.08);
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+  }
+  .section-row:hover .section-row__img {
+    transform: scale(1.03) translateY(-5px);
+  }
+
+  /* --- Section Header Utility --- */
+  .section-title {
+    max-width: 600px;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
+  }
+  .section-title h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 800;
+    color: var(--brand-black);
+    margin-bottom: 0.8rem;
+  }
+  .section-title p {
+    color: var(--brand-muted);
+    font-size: var(--text-base);
+  }
+
+  /* --- Symptoms Section --- */
+  .symptoms-sec {
+    background: var(--brand-paper);
+    border-bottom: 1px solid var(--brand-line);
+    position: relative;
+    z-index: 2;
+  }
+  .symptoms-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--symptoms-count, 4), 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 1024px) {
+    .symptoms-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+  }
+  .symptom-card {
+    background: var(--brand-white);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: var(--shadow-card);
+    transition: transform var(--dur-normal) var(--ease-out-expo),
+                box-shadow var(--dur-normal) var(--ease-out-expo),
+                border-color var(--dur-normal) var(--ease-out-expo);
+    position: relative;
+    overflow: hidden;
+  }
+  .symptom-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--grad-hero);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+  }
+  .symptom-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: rgba(255, 94, 0, 0.25);
+  }
+  .symptom-card:hover::before {
+    transform: scaleX(1);
+  }
+  .symptom-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .symptom-card__icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--brand-orange-soft);
+    color: var(--brand-orange);
+    display: grid;
+    place-items: center;
+    transition: background var(--dur-fast), color var(--dur-fast);
+  }
+  .symptom-card:hover .symptom-card__icon-wrap {
+    background: var(--brand-orange);
+    color: var(--brand-white);
+  }
+  .symptom-icon {
+    width: 16px;
+    height: 16px;
+  }
+  .symptom-card__badge {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--brand-muted);
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  .symptom-card__text {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--brand-black);
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  /* Success/Check style for non-repair services (rentals, refurbished) */
+  .symptom-card--check.symptom-card::before {
+    background: linear-gradient(135deg, #25D366 0%, #20BA56 100%);
+  }
+  .symptom-card--check .symptom-card__icon-wrap {
+    background: rgba(37, 211, 102, 0.08);
+    color: #20BA56;
+  }
+  .symptom-card--check:hover .symptom-card__icon-wrap {
+    background: #20BA56;
+    color: var(--brand-white);
+  }
+  .symptom-card--check:hover {
+    border-color: rgba(37, 211, 102, 0.25);
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.06);
+  }
+
+  /* --- Process Section --- */
+  .process-sec {
+    background: var(--brand-white);
+    border-bottom: 1px solid var(--brand-line);
+    position: relative;
+    z-index: 2;
+  }
+  .process-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.8rem;
+  }
+  .process-step-card {
+    position: relative;
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    padding: 2.2rem 1.8rem;
+    transition: border-color var(--dur-normal) var(--ease-out-expo);
+  }
+  .process-step-card:hover {
+    border-color: var(--brand-orange);
+  }
+  .step-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--brand-orange);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 10px rgba(255, 94, 0, 0.25);
+  }
+  .process-step-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--brand-black);
+    margin-bottom: 0.8rem;
+  }
+  .process-step-card p {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--brand-muted);
+    margin: 0;
+  }
+
+  /* --- Rates Section --- */
+  .rates-sec {
+    background: var(--brand-paper);
+    border-bottom: 1px solid var(--brand-line);
+    position: relative;
+    z-index: 2;
+  }
+  .rates-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+    align-items: flex-start;
+  }
+  @media (max-width: 960px) {
+    .rates-grid-container {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+  .rates-sec__info {
+    display: flex;
+    flex-direction: column;
+  }
+  .rates-sec__info .section-title {
+    margin-bottom: 2rem;
+    max-width: 100%;
+  }
+  .rates-trust-features {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .trust-feat {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .trust-feat__check {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.1);
+    color: #20BA56;
+    display: grid;
+    place-items: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+  .trust-feat div strong {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--brand-black);
+    margin-bottom: 0.15rem;
+  }
+  .trust-feat div p {
+    font-size: 0.82rem;
+    color: var(--brand-muted);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .rates-table-wrap {
+    background: var(--brand-white);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .rates-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  .rates-table th,
+  .rates-table td {
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--brand-line);
+  }
+  .rates-table th {
+    background: var(--brand-paper);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    color: var(--brand-black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .rates-table tr:last-child td {
+    border-bottom: none;
+  }
+  .rate-name {
+    font-size: var(--text-base);
+    color: var(--brand-text);
+  }
+  .rate-price {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--brand-orange);
+  }
+  .rate-btn {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    background: var(--brand-orange-soft);
+    color: var(--brand-orange-deep);
+    border-radius: 30px;
+    transition: background var(--dur-fast), color var(--dur-fast);
+  }
+  .rate-btn:hover {
+    background: var(--brand-orange);
+    color: white;
+  }
+  .text-right {
+    text-align: right;
+  }
+
+  /* --- FAQ Section --- */
+  .faq-sec {
+    background: var(--brand-white);
+    border-bottom: 1px solid var(--brand-line);
+    position: relative;
+    z-index: 2;
+  }
+  .faq-sec__inner {
+    max-width: 800px;
+  }
+  .faq-accordion-list {
+    display: grid;
+    gap: 1rem;
+  }
+  .faq-details {
+    background: var(--brand-paper);
+    border: 1px solid var(--brand-line);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: border-color var(--dur-fast);
+  }
+  .faq-details[open] {
+    border-color: var(--brand-orange);
+    background: var(--brand-white);
+  }
+  .faq-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 1.8rem;
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--brand-black);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-arrow {
+    flex: none;
+    transform: rotate(90deg);
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+    color: var(--brand-muted);
+  }
+  .faq-details[open] .faq-arrow {
+    transform: rotate(270deg);
+    color: var(--brand-orange);
+  }
+  .faq-content {
+    padding: 0 1.8rem 1.4rem 1.8rem;
+    border-top: 1px solid transparent;
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--brand-muted);
+  }
+  .faq-details[open] .faq-content {
+    border-top-color: var(--brand-line);
+  }
+
+  /* --- Bottom CTA Banner --- */
+  .cta-banner {
+    background: var(--brand-paper);
+    position: relative;
+    z-index: 2;
+  }
+  .cta-banner__inner {
+    background: var(--brand-ink);
+    border-radius: var(--radius-lg);
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    box-shadow: var(--shadow-card-hover);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-banner__inner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255, 94, 0, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-banner__content {
+    max-width: 550px;
+  }
+  .cta-banner__content h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 1rem + 2vw, 2.5rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.8rem;
+  }
+  .cta-banner__content p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--text-base);
+    margin: 0;
+  }
+  .cta-banner__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .btn--secondary-white {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+  }
+  .btn--secondary-white:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* --- Responsive Styles --- */
+  @media (max-width: 960px) {
+    .service-hero__grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .service-hero__eyebrow {
+      justify-content: center;
+    }
+    .service-hero__desc {
+      margin-inline: auto;
+    }
+    .service-hero__metrics {
+      max-width: 600px;
+      margin-inline: auto;
+    }
+    .service-hero__ctas {
+      justify-content: center;
+    }
+    .section-row {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+    .section-row--reverse {
+      direction: ltr; /* Reset direction */
+    }
+    .section-row__features {
+      justify-content: center;
+    }
+    .section-row__features li {
+      justify-content: center;
+    }
+    .process-steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cta-banner__inner {
+      flex-direction: column;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .cta-banner__actions {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .service-hero__metrics {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+    .metric-card {
+      justify-content: center;
+    }
+    .process-steps-grid {
+      grid-template-columns: 1fr;
+    }
+    .rates-table th,
+    .rates-table td {
+      padding: 1rem;
+    }
+  }
+</style>

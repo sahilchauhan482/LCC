@@ -6,8 +6,9 @@ interface Props {
   title: string;
   blurb: string;
   delay?: number;
+  href?: string;
 }
-const { step, icon, title, blurb, delay = 0 } = Astro.props;
+const { step, icon, title, blurb, delay = 0, href = "#contact" } = Astro.props;
 ---
 
 <article class="glow-card reveal" data-reveal-delay={delay} data-glow-card>
@@ -19,8 +20,8 @@ const { step, icon, title, blurb, delay = 0 } = Astro.props;
     </div>
     <h3 class="card__title">{title}</h3>
     <p class="card__blurb">{blurb}</p>
-    <a href="#contact" class="card__more" aria-label={`Book service: ${title}`}>
-      Book this <Icon name="arrow" size={16} />
+    <a href={href} class="card__more" aria-label={`View details: ${title}`}>
+      View details <Icon name="arrow" size={16} />
     </a>
   </div>
 </article>
