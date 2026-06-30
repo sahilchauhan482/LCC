@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
 const { service } = Astro.props;
 const pageTitle = `${service.title} — Lakhdata Computer Care`;
-const pageDescription = `${service.subtitle}. Turnaround time: ${service.timeframe}. Pricing starts from ${service.price}.`;
+const pageDescription = `${service.subtitle}. Turnaround time: ${service.timeframe}. Warranty: ${service.warranty}.`;
 
 // Construct WhatsApp booking message
 const waMessage = encodeURIComponent(`Hi LCC, I want to book a repair or get a quote for: ${service.title}`);
@@ -52,13 +52,6 @@ const isRepair = service.id !== 'rentals' && service.id !== 'refurbished';
               <div>
                 <span class="metric-label">TIME ESTIMATE</span>
                 <span class="metric-value">{service.timeframe}</span>
-              </div>
-            </div>
-            <div class="metric-card">
-              <span class="metric-icon"><Icon name="storage" size={16} /></span>
-              <div>
-                <span class="metric-label">STARTING RATE</span>
-                <span class="metric-value">{service.price}</span>
               </div>
             </div>
             <div class="metric-card">
@@ -189,75 +182,7 @@ const isRepair = service.id !== 'rentals' && service.id !== 'refurbished';
       </div>
     </section>
 
-    <!-- Pricing and Coverage Section -->
-    <section class="section rates-sec">
-      <div class="container rates-grid-container">
-        <div class="rates-sec__info reveal">
-          <div class="section-title">
-            <h2>{isRepair ? "Repair Rates & Coverage" : "Pricing & Packages"}</h2>
-            <p>
-              {isRepair
-                ? "Flat-rate transparent pricing structure. All repairs are done under written warranty."
-                : "Flexible rental and sales packages. Get the best value with free maintenance support."}
-            </p>
-          </div>
-          
-          <div class="rates-trust-features">
-            <div class="trust-feat">
-              <span class="trust-feat__check">✓</span>
-              <div>
-                <strong>No Hidden Charges</strong>
-                <p>What we quote is what you pay. Tax and diagnostics included.</p>
-              </div>
-            </div>
-            <div class="trust-feat">
-              <span class="trust-feat__check">✓</span>
-              <div>
-                <strong>{isRepair ? "Warranty Included" : "Free Maintenance"}</strong>
-                <p>{isRepair ? "Get up to 12 months warranty on replaced parts." : "Any hardware fault is fixed or swapped for free."}</p>
-              </div>
-            </div>
-            <div class="trust-feat">
-              <span class="trust-feat__check">✓</span>
-              <div>
-                <strong>Genuine Parts Only</strong>
-                <p>We source certified spares directly from OEM suppliers.</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="rates-table-wrap reveal">
-          <table class="rates-table">
-            <thead>
-              <tr>
-                <th>{isRepair ? "Specific Repair / Service" : "Device Configuration / Tier"}</th>
-                <th>Starting Price</th>
-                <th class="text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {service.coverage.map((c) => {
-                const itemWa = `https://wa.me/919815109816?text=${encodeURIComponent(`Hi LCC, I want to book: ${service.title} - ${c.name}`)}`;
-                return (
-                  <tr>
-                    <td class="rate-name">
-                      <strong>{c.name}</strong>
-                    </td>
-                    <td class="rate-price">{c.price}</td>
-                    <td class="text-right">
-                      <a href={itemWa} target="_blank" rel="noopener noreferrer" class="rate-btn">
-                        Book
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
 
     <!-- FAQs Accordion Section -->
     <section class="section faq-sec">
@@ -415,7 +340,7 @@ const isRepair = service.id !== 'rentals' && service.id !== 'refurbished';
   /* --- Metrics Cards --- */
   .service-hero__metrics {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     margin-bottom: 3rem;
   }
